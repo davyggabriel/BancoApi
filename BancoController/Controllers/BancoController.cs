@@ -11,17 +11,31 @@ namespace BancoController.Controllers
     public class BancoController : ControllerBase
     {
         public static List<Conta> contas = new List<Conta>();
+        public static List<ContaDeMenor> contasdemenor = new List<ContaDeMenor>();
 
         [HttpPost("Cadastrar")]
         public void Cadastrar([FromBody] Conta novaConta)
         {
-            contas.Add(new Conta(novaConta.IdConta, novaConta.Saldo));
+            if(novaConta.Titular.Idade >= 18)
+            {
+                contas.Add(new Conta(novaConta.IdConta, novaConta.Saldo, novaConta.Titular));
+            }
+            else
+            {
+                contasdemenor.Add(new ContaDeMenor(novaConta.IdConta, novaConta.Saldo, novaConta.Titular));
+            }
         }
 
-        [HttpGet("Listar")]
-        public List<Conta> Listar()
+        [HttpGet("Listar Contas")]
+        public List<Conta> ListarContas()
         {
             return contas;
+        }
+
+        [HttpGet("Listar Contas de Menor")]
+        public List<ContaDeMenor> ListarContasMenor()
+        {
+            return contasdemenor;
         }
 
         [HttpGet("BuscaPorId/{id}")]
@@ -73,5 +87,7 @@ namespace BancoController.Controllers
                 }
             }
         }
+
+        //teste
     }
 }

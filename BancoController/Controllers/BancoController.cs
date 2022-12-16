@@ -87,7 +87,5 @@ namespace BancoController.Controllers
                 }
             }
         }
-
-        //teste
     }
 }
